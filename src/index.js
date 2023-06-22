@@ -8,7 +8,7 @@ const dotenv = require("dotenv").config();
 const connectDB = require("../src/config/database");
 
 
-connectDB();
+// connectDB();
 const app = express()
 app.use(session({
    secret:"test",
@@ -33,7 +33,8 @@ app.set('view engine', 'ejs');
 
 
 //Router Service Providers
-app.use('/admin',require("./routes/web"));
+app.use('/',require("./routes/web"));
+app.use('/admin',require("./routes/admin"));
 
 
 //Server Start
