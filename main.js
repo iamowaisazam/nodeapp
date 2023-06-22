@@ -8,7 +8,7 @@ const dotenv = require("dotenv").config();
 const connectDB = require("./config/database");
 
 
-// connectDB();
+connectDB();
 const app = express()
 app.use(session({
    secret:"test",
