@@ -2,7 +2,7 @@ const isLoggedIn = async (req,res,next) => {
 
     try {
 
-        if(req.session.user_id){
+        if(req.cookies.token){
 
             next();
         }else{
@@ -18,7 +18,7 @@ const isLoggedOut = async (req,res,next) => {
 
     try {
 
-        if(req.session.user_id){
+        if(req.cookies.token){
             res.redirect('/admin/dashboard');
           
         }else{

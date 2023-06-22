@@ -1,6 +1,8 @@
 const express = require('express');
 const session = require('express-session')
 const flash = require('express-flash')
+const cookieParser = require("cookie-parser");
+
 
 const path = require("path");
 const ErrorHandler = require('./middlewares/ErrorHandler');
@@ -17,6 +19,7 @@ app.use(session({
    saveUninitialized:false,
 }))
 app.use(flash());
+app.use(cookieParser());
 
 
 

@@ -9,7 +9,7 @@ const { sentVerification,sentForgetPasswordEmail } = require("../utils/email");
 const login = async (req,res) => {
     
    
-
+//    console.log(req.cookies.token);
     return res.render("admin/login");
 }
 
@@ -39,7 +39,8 @@ const login_submit = async (req,res) => {
           });
       }
 
-      req.session.user_id = response._id;
+     await res.cookie("token",response._id);
+    //   req.session.user_id = response._id;
       req.flash('success','Login Success');
       res.redirect('/admin');
 }
@@ -176,7 +177,7 @@ const newPasswordSubmit = async (req,res) => {
 // 
 const logout = async (req,res) => {
   
-    req.session.user_id = null;
+    res.clearCookie("token");
     req.flash('success','User Logout Success');
     res.redirect('/admin/login');
 
