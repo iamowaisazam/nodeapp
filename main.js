@@ -2,15 +2,13 @@ const express = require('express');
 const session = require('express-session')
 const flash = require('express-flash')
 const cookieParser = require("cookie-parser");
-
-
 const path = require("path");
-const ErrorHandler = require('./middlewares/ErrorHandler');
 const dotenv = require("dotenv").config();
 const connectDB = require("./config/database");
 
-
+//Initialization..
 connectDB();
+
 const app = express()
 app.use(session({
    secret:"test",
@@ -22,8 +20,6 @@ app.use(flash());
 app.use(cookieParser());
 
 
-
-
 //URL Encoding SET
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
@@ -33,6 +29,13 @@ app.use('/static',express.static(path.join(__dirname, "./public")));
 // set the view engine to ejs
 app.set("views", path.join(__dirname, "views"));
 app.set('view engine', 'ejs');
+
+app.locals.settings = {
+   site_name:"Admin Panel",
+
+};
+
+
 
 
 //Router Service Providers

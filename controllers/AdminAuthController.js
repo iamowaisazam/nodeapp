@@ -40,7 +40,6 @@ const login_submit = async (req,res) => {
       }
 
      await res.cookie("token",response._id);
-    //   req.session.user_id = response._id;
       req.flash('success','Login Success');
       res.redirect('/admin');
 }

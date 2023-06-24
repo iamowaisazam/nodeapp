@@ -26,6 +26,10 @@ app.get('/forget-password',isLoggedOut,AdminAuthController.forgetPassword);
 app.post('/forget-password/submit',isLoggedOut,AdminAuthController.forgetPasswordSubmit);
 app.get('/new-password/:token',isLoggedOut,AdminAuthController.newPassword);
 app.post('/new-password/submit/:token',isLoggedOut,AdminAuthController.newPasswordSubmit);
+app.get('/profile/:id',isLoggedIn,DashboardController.profile);
+app.post('/update_profile/:id',isLoggedIn,DashboardController.update_profile);
+
+
 
 
 

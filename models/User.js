@@ -5,9 +5,41 @@ const UserSchema = mongoose.Schema({
     type:String,
     required:true
   },
+  about:{
+    type:String,
+    required:false
+  },
+  company:{
+    type:String,
+    required:false
+  },
+  job:{
+    type:String,
+    required:false
+  },
+  country:{
+    type:String,
+    required:false
+  },
+  state:{
+    type:String,
+    required:false
+  },
+  city:{
+    type:String,
+    required:false
+  },
+  street_address:{
+    type:String,
+    required:false
+  },
   email:{
     type:String,
     required:true,
+  },
+  phone:{
+    type:String,
+    required:false
   },
   password:{
     type:String,
