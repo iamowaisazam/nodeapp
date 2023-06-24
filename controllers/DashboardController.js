@@ -32,7 +32,7 @@ const update_profile = async (req,res) => {
     try {
 
         
-       let user = await UserModel.findOneAndUpdate({_id:req.user.auth._id},{
+       let user = await UserModel.findOneAndUpdate({_id:req.params.id},{
             name:req.body.name,  
             company:req.body.company,
             job:req.body.job,
