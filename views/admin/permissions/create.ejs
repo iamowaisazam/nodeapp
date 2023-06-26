@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>Users - Admin</title>
+  <title>Permission - Admin</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
     <%- include("../layouts/header.ejs") -%>
@@ -23,11 +23,11 @@
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1>Edit Users</h1>
+      <h1>Add New Permission</h1>
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="/admin">Home</a></li>
-          <li class="breadcrumb-item active">users</li>
+          <li class="breadcrumb-item active">Permission</li>
         </ol>
       </nav>
     </div><!-- End Page Title -->
@@ -39,43 +39,31 @@
                 <div class="card">
                   <div class="card-body pt-3">
                    
-      
                     <!-- General Form Elements -->
-                    <form action="/admin/users/update/<%=data.id%>" method="post" >
+                    <form action="/admin/permissions/store" method="post" >
+                      <div class="row mb-3">
+                        <label for="inputText" class="col-sm-2 col-form-label">Title</label>
+                        <div class="col-sm-10">
+                          <input name="title" required type="text" class="form-control" value="<%= locals.old ? old.title:''%>"  />
+                        </div>
+                      </div>
                       <div class="row mb-3">
                         <label for="inputText" class="col-sm-2 col-form-label">Name</label>
                         <div class="col-sm-10">
-                          <input name="name" required type="text" class="form-control" value="<%=data.name%>" />
+                          <input name="name" pattern="^[a-z0-9]+(?:-[a-z0-9]+)*$" value="<%= locals.old ? old.name:''%>" required type="text" class="form-control"  />
                         </div>
                       </div>
                       <div class="row mb-3">
-                        <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
+                        <label for="inputText" class="col-sm-2 col-form-label">Type</label>
                         <div class="col-sm-10">
-                          <input name="email" required type="email" class="form-control" value="<%=data.email%>" />
-                        </div>
-                      </div>
-                      <div class="row mb-3">
-                        <label for="inputEmail" class="col-sm-2 col-form-label">Password</label>
-                        <div class="col-sm-10">
-                          <input name="password" type="password" class="form-control"  />
-                          <p class="pt-2" >Leave It Blank</p>
-                        </div>
-                      </div>
-
-                      <div class="row mb-3">
-                        <label for="inputEmail" class="col-sm-2 col-form-label">Role</label>
-                        <div class="col-sm-10">
-                          <select  class="form-control" name="role_id">
-                            <% roles.forEach(function(item,key) { %>
-                              <option value="<%=item.id%>"><%=item.title%></option>
-                            <% })%>
-                          </select>
+                          <input name="type" value="<%= locals.old ? old.type:''%>" required type="text" class="form-control"  />
                         </div>
                       </div>
                     
+                  
                       <div class="row">
                         <div class="col-12 text-center">
-                          <button type="submit" class="btn btn-primary">Update</button>
+                          <button type="submit" class="btn btn-primary">Submit</button>
                         </div>
                       </div>
       

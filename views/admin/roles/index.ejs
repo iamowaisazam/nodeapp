@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>Users - Admin</title>
+  <title>Roles - Admin</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
     <%- include("../layouts/header.ejs") -%>
@@ -23,11 +23,11 @@
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1>All Users</h1>
+      <h1>All Roles</h1>
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-          <li class="breadcrumb-item active">users</li>
+          <li class="breadcrumb-item active">roles</li>
         </ol>
       </nav>
     </div><!-- End Page Title -->
@@ -38,16 +38,14 @@
   
             <div class="card">
               <div class="card-body">
-                <h5 class="card-title">Users List</h5>
+                <h5 class="card-title">Roles List</h5>
   
                 <!-- Table with stripped rows -->
                 <table class="table datatable">
                   <thead>
                     <tr>
                       <th scope="col">#</th>
-                      <th scope="col">Name</th>
-                      <th scope="col">Email</th>
-                      <th scope="col">Joined Date</th>
+                      <th scope="col">Title</th>
                       <th scope="col">Action</th>
                     </tr>
                   </thead>
@@ -55,13 +53,10 @@
                     <% data.forEach(function(item,key) { %>
                     <tr>
                       <th scope="row"><%= key + 1  %></th>
-                      <td><%= item.name  %></td>
-                      <td><%= item.email  %></td>
-                      <td><%= new Date(item.createdAt).toLocaleDateString()%></td>
+                      <td><%= item.title  %></td>
                       <td scope="col">
-                        <a href="/admin/users/edit/<%=item.id%>" class="text-success">Edit</a> |
-                        <a href="/admin/profile/<%=item.id%>" class="text-warning">Profile</a> | 
-                        <a href="/admin/users/delete/<%=item.id%>" class="text-danger" >Delete</a>
+                        <a href="/admin/roles/edit/<%=item.id%>" class="text-success">Edit</a> |
+                        <a href="/admin/roles/delete/<%=item.id%>" class="text-danger" >Delete</a>
                     </td>
                     </tr>
                     <% }); %> 

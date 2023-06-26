@@ -1,3 +1,4 @@
+const RoleModel = require("../models/Role");
 const User = require("../models/User");
 const bcrypt = require("bcrypt")
 
@@ -26,9 +27,11 @@ const index = async (req,res) => {
 // 
 // 
 const create = async (req,res) => {
+
+     let roles = await RoleModel.find();
   
     res.render("admin/users/create",{
-
+      roles:roles
     });
 
 }
@@ -48,7 +51,7 @@ const store = async (req,res) => {
             name:req.body.name,
             email:req.body.email,
             password:password,
-            role_id:1,
+            role_id:req.body.role_id,
             image:null,
         });
 
@@ -68,9 +71,13 @@ const edit = async (req,res) => {
 
     const id = req.params.id;
     const data = await User.findOne({_id:id});
+    let roles = await RoleModel.find();
     if(data){
 
-        res.render("admin/users/edit",{data:data});
+        res.render("admin/users/edit",{
+            data:data,
+            roles
+        });
         
     }else{
     
@@ -87,7 +94,8 @@ const update = async (req,res) => {
     const id = req.params.id;
     let data = {
         name:req.body.name,
-        email:req.body.email
+        email:req.body.email,
+        role_id:req.body.role_id,
     };
     
     if(req.body.password != ""){

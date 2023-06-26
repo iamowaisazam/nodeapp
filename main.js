@@ -6,10 +6,24 @@ const path = require("path");
 const dotenv = require("dotenv").config();
 const connectDB = require("./config/database");
 
+
+
 //Initialization..
 connectDB();
 
 const app = express()
+
+
+//URL Encoding SET
+app.use('/static',express.static(path.join(__dirname, "./public")));
+
+// set the view engine to ejs
+app.set("views", path.join(__dirname, "views"));
+app.set('view engine', 'ejs');
+
+
+
+
 app.use(session({
    secret:"test",
    cookie:{maxAge:60000},
@@ -18,17 +32,11 @@ app.use(session({
 }))
 app.use(flash());
 app.use(cookieParser());
-
-
-//URL Encoding SET
 app.use(express.json())
-app.use(express.urlencoded({ extended: true }));
-app.use('/static',express.static(path.join(__dirname, "./public")));
+app.use(express.urlencoded({ extended: false }));
 
 
-// set the view engine to ejs
-app.set("views", path.join(__dirname, "views"));
-app.set('view engine', 'ejs');
+
 
 app.locals.settings = {
    site_name:"Admin Panel",
@@ -41,6 +49,7 @@ app.locals.settings = {
 //Router Service Providers
 app.use('/',require("./routes/web"));
 app.use('/admin',require("./routes/admin"));
+app.use('/api/v1',require("./routes/api"));
 
 
 //Server Start

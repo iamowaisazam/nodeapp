@@ -1,18 +1,21 @@
 const UserModel = require("../models/User");
+const { getAuthDetail } = require("../utils/Auth");
 
 const isLoggedIn = async (req,res,next) => {
 
-    try {
+    // console.log(req.file);
+
+    // try {
 
         if(req.cookies.token){
-            
+
             let token = req.cookies.token;
-            const User = await UserModel.findOne({_id:token});
-            let globalData = {
-                auth:User
-            }
-            req.user = globalData;
-            res.locals = globalData;
+            let user = await getAuthDetail(token);
+
+            req.auth = user;
+            res.locals ={
+                auth:user
+            };
             next();
 
         }else{
@@ -20,11 +23,12 @@ const isLoggedIn = async (req,res,next) => {
             console.log('token_not_found');
             res.redirect('/admin/login');
         }
-     
-    } catch (error) {
-        res.end(error);
+    
         
-    }
+    // } catch (error) {
+    //     res.end(error);       
+    // }
+
 }
 
 const isLoggedOut = async (req,res,next) => {

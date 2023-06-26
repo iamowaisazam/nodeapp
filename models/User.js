@@ -47,8 +47,8 @@ const UserSchema = mongoose.Schema({
     default:"0"
   },
   role_id:{
-    type:String,
-    required:true
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Role',
   },
   image:{
       type:String,
@@ -66,6 +66,22 @@ const UserSchema = mongoose.Schema({
   forget_password_token: {
     type: String, 
     required:false,
+  },
+  facebook:{
+    type:String,
+    required:false
+  },
+  twitter:{
+    type:String,
+    required:false
+  },
+  instagram:{
+    type:String,
+    required:false
+  },
+  linkedin:{
+    type:String,
+    required:false
   },
 },{
     timestamps:true
