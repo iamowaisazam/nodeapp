@@ -1,15 +1,11 @@
 const mongoose = require('mongoose');
 
-const ProductSchema = mongoose.Schema({
+const CategorySchema = mongoose.Schema({
   title:{
     type:String,
     required:true
   },
   slug:{
-    type:String,
-    required:true
-  },
-  price:{
     type:String,
     required:true
   },
@@ -21,12 +17,6 @@ const ProductSchema = mongoose.Schema({
       type:String,
       required:false
   },
-  category_id:{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Category',
-    required:true
-  },
-  
   status: {
     type: String, 
     enum: ['deactive', 'active'],
@@ -38,4 +28,4 @@ const ProductSchema = mongoose.Schema({
 
 
 
-module.exports = mongoose.model("Product",ProductSchema)
+module.exports = mongoose.model("Category",CategorySchema)

@@ -13,7 +13,8 @@ const users = async (req,res) => {
             obj.image = "https://rich-tan-capybara-wig.cyclic.app/static/admin/"+obj.image;
             return obj;
         });
-        return res.json(response);
+        return res.status(200).json(response);
+   
     } catch (error) {
         res.send(error);
     }

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Products - Admin</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+    <%- include("../layouts/header.ejs") -%>
+</head>
+<body>
+
+  <!-- ======= Header ======= -->
+  <%- include("../layouts/nav.ejs") -%>
+  <!-- End Header -->
+
+  <!-- ======= Sidebar ======= -->
+  <%- include("../layouts/sidebar.ejs") -%>
+  <!-- End Sidebar-->
+
+
+   <!-- ======= Content ======= -->
+  <main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Add New Product</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/admin">Home</a></li>
+          <li class="breadcrumb-item active">products</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section">
+        <div class="row">
+            <div class="col-lg-12">
+
+                <div class="card">
+                  <div class="card-body pt-3">
+                   
+      
+                    <!-- General Form Elements -->
+                    <form 
+                      action="/admin/products/store" 
+                      method="post"
+                      enctype="multipart/form-data"  
+                    >
+                    
+                      <div class="row mb-3">
+                        <label for="inputText" class="col-sm-2 col-form-label">Title</label>
+                        <div class="col-sm-10">
+                          <input name="title" required type="text" class="form-control" value="<%= locals.old ? old.title:''%>"  />
+                        </div>
+                      </div>
+
+                      <div class="row mb-3">
+                        <label for="inputText" class="col-sm-2 col-form-label">Slug</label>
+                        <div class="col-sm-10">
+                          <input pattern="^[a-z0-9]+(?:-[a-z0-9]+)*$" name="slug" required type="text" class="form-control" value="<%= locals.old ? old.slug:''%>"  />
+                        </div>
+                      </div>
+
+                      <div class="row mb-3">
+                        <label for="inputText" class="col-sm-2 col-form-label">Price</label>
+                        <div class="col-sm-10">
+                          <input  name="price" required type="number" class="form-control" value="<%= locals.old ? old.price:''%>"  />
+                        </div>
+                      </div>
+
+                      <div class="row mb-3">
+                        <label for="inputText" class="col-sm-2 col-form-label">Description</label>
+                        <div class="col-sm-10">
+                          <textarea name="description" class="form-control w-100 description" ><%= locals.old ? old.description:''%></textarea>
+                        </div>
+                      </div>
+
+                      <div class="row mb-3">
+                        <label for="inputText" class="col-sm-2 col-form-label">Status</label>
+                        <div class="col-sm-10">
+                        <select class="form-control" name="status" >
+                          <option value="active">Active</option>
+                          <option value="deactive">Deactive</option>
+                        </select>
+                        </div>
+                      </div>
+
+                      <div class="row mb-3">
+                        <label for="inputText" class="col-sm-2 col-form-label">Image</label>
+                        <div class="col-sm-10 col-md-8 col-lg-9">
+                          <input class="pt-2" name="image" type="file" />
+                        </div>
+                      </div>
+
+                      <div class="row mb-3">
+                        <label for="inputText" class="col-sm-2 col-form-label">Category</label>
+                        <div class="col-sm-10">
+                        <select class="form-control" name="category_id" >
+                          <% categories.forEach(function(item,key) { %>
+                            <option selected value="<%=item._id%>"><%=item.title%></option>
+                          <% }) %>
+                        </select>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col-12 text-center">
+                          <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                      </div>
+      
+                    </form><!-- End General Form Elements -->
+                  </div>
+                </div>
+              </div>
+            </div>
+      </section>
+  </main>
+   <!-- ======= Content ======= -->
+
+
+  <!-- ======= Footer ======= -->
+  <%- include("../layouts/footer.ejs") -%>
+  <!-- End Footer -->
+ 
+  <!-- ======= Scripts ======= -->
+  <%- include("../layouts/scripts.ejs") -%>
+  <!-- ======= Scripts ======= -->
+
+</body>
+</html>

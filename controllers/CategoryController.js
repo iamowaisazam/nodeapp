@@ -1,7 +1,6 @@
 
-const ProductModel = require("../models/Product");
 const CategoryModel = require("../models/Category");
-
+const formidable = require('formidable');
 
 
 
@@ -10,8 +9,8 @@ const CategoryModel = require("../models/Category");
 // 
 const index = async (req,res) => {
     try {
-        const data = await ProductModel.find();
-        res.render("admin/products/index",{
+        const data = await CategoryModel.find();
+        res.render("admin/categories/index",{
             data:data
         });
     } catch (error) {
@@ -25,9 +24,9 @@ const index = async (req,res) => {
 // 
 const create = async (req,res) => {
 
-    let categories = await CategoryModel.find();
-
-    res.render("admin/products/create",{categories});
+  
+  
+    res.render("admin/categories/create",{});
 }
 
 
@@ -38,10 +37,10 @@ const store = async (req,res) => {
 
     try {
 
-        const isAlreadyAdded = await ProductModel.findOne({slug:req.body.slug});
+        const isAlreadyAdded = await CategoryModel.findOne({slug:req.body.slug});
         if(isAlreadyAdded){
-            req.flash('error','Product Allready Added Please Write Unique Slug');
-           return res.render("admin/products/create",{old:req.body});
+            req.flash('error','Category Allready Added Please Write Unique Slug');
+           return res.render("admin/categories/create",{old:req.body});
         }
 
         let data = {
@@ -49,16 +48,14 @@ const store = async (req,res) => {
             slug:req.body.slug,
             status:req.body.status,
             description:req.body.description,
-            category_id:req.body.category_id,
-            price:req.body.price,
         }
  
         if(req.file != undefined){
             data.image = req.file.filename;
         }
 
-        const u = await ProductModel.create(data);
-        res.redirect('/admin/products/index');
+        const u = await CategoryModel.create(data);
+        res.redirect('/admin/categories/index');
 
     } catch (error) {
         res.end(error);
@@ -74,14 +71,11 @@ const edit = async (req,res) => {
 
 
     const id = req.params.id;
-    const data = await ProductModel.findOne({_id:id});
-    let categories = await CategoryModel.find();
+    const data = await CategoryModel.findOne({_id:id});
     
     if(data){
-        res.render("admin/products/edit",{
+        res.render("admin/categories/edit",{
             data:data,
-            categories
-            
         });
     }else{
         res.json({message:"Not Found"});
@@ -89,11 +83,12 @@ const edit = async (req,res) => {
    
 }
 
-
 // 
 // 
 // 
 const update = async (req,res) => {
+
+    // console.log(req.body);
 
     const id = req.params.id;
     let data = {
@@ -101,27 +96,28 @@ const update = async (req,res) => {
         slug:req.body.slug,
         description:req.body.description,
         status:req.body.status,
-        category_id:req.body.category_id,
-        price:req.body.price,
     };
+
     
     if(req.file != undefined){
         data.image = req.file.filename;
     }
 
-    const isAlreadyAdded = await ProductModel.findOne({slug:req.body.slug});
+    const isAlreadyAdded = await CategoryModel.findOne({slug:req.body.slug});
     if(isAlreadyAdded && isAlreadyAdded.id != id){
-        req.flash('error','Product Allready Added Please Unique Name');
-       return res.redirect('/admin/products/edit/'+id);
+        req.flash('error','Category Allready Added Please Unique Name');
+       return res.redirect('/admin/categories/edit/'+id);
     }
 
-    // try {
-        const cc = await ProductModel.findOneAndUpdate({_id:id},data);
-        res.redirect('/admin/products/edit/'+id);
-    // } catch (error) {
-        // res.json({message:"Not Found"});
-    // }
 
+    // try {
+
+        const cc = await CategoryModel.findOneAndUpdate({_id:id},data);
+        res.redirect('/admin/categories/edit/'+id);
+
+    // } catch (error) {
+    //     res.json({message:"Not Found"});
+    // }
 }
 
 
@@ -132,12 +128,11 @@ const del = async (req,res) => {
 
     const id = req.params.id;
     try {
-        const cc = await ProductModel.findOneAndRemove({_id:id});
-        res.redirect('/admin/products/index');
+        const cc = await CategoryModel.findOneAndRemove({_id:id});
+        res.redirect('/admin/categories/index');
     } catch (error) {
         res.json({message:"Not Found"});
     }
-
 }
 
 

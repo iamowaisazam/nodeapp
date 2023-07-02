@@ -36,6 +36,7 @@ const UserSchema = mongoose.Schema({
   email:{
     type:String,
     required:true,
+    unique:true
   },
   phone:{
     type:String,
@@ -61,7 +62,7 @@ const UserSchema = mongoose.Schema({
   },
   is_email_verified: {
     type: Number, 
-    default: false
+    default: false,
   },
   forget_password_token: {
     type: String, 
