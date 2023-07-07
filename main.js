@@ -9,7 +9,7 @@ const connectDB = require("./config/database");
 
 
 //Initialization..
-connectDB();
+// connectDB();
 
 const app = express()
 
