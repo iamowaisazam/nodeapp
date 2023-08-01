@@ -4,12 +4,41 @@ const flash = require('express-flash')
 const cookieParser = require("cookie-parser");
 const path = require("path");
 const dotenv = require("dotenv").config();
-const connectDB = require("./config/database");
+const sequelize = require('./config/mysql');
+
+
+//  ______________________________________DB
+const User = require('./models/User');
+const Role = require('./models/Role');
+const Permission = require('./models/Permission');
+const UserRole = require('./models/UserRole');
+const RolePermission = require('./models/RolePermission');
+
+(async () => {
+
+   await sequelize.sync().then(() => {
+
+      // Role.create({
+      //    name:"Admin",
+      //    description:".."
+      // });
+
+      // Role.create({
+      //    name:"Customer",
+      //    description:".."
+      // });
+      
+   });
+
+ })();
+//  ______________________________________DB
+
+
 
 
 
 //Initialization..
-// connectDB();
+
 
 const app = express()
 
@@ -22,14 +51,13 @@ app.set("views", path.join(__dirname, "views"));
 app.set('view engine', 'ejs');
 
 
-
-
 app.use(session({
    secret:"test",
    cookie:{maxAge:60000},
    resave:false,
    saveUninitialized:false,
-}))
+}));
+
 app.use(flash());
 app.use(cookieParser());
 app.use(express.json())
@@ -47,9 +75,7 @@ app.locals.settings = {
 
 
 //Router Service Providers
-app.use('/',require("./routes/web"));
-app.use('/admin',require("./routes/admin"));
-app.use('/api/v1',require("./routes/api"));
+app.use('/api/v1',require("./modules/api/route"));
 
 
 //Server Start
