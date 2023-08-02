@@ -4,6 +4,8 @@ const RoleModel = require("../../../models/Role");
 const User = require("../../../models/User");
 const { Op } = require("sequelize");
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const Role = require("../../../models/Role");
 
 
 
@@ -12,7 +14,7 @@ const bcrypt = require('bcrypt');
 //@route api/v1/register
 const register = async (req,res) => {
 
-    // try {
+    try {
 
             let newPassword = await bcrypt.hash(req.body.password,10);
             let token = newPassword;
@@ -36,12 +38,12 @@ const register = async (req,res) => {
                 }
             });
 
-    // } catch (error) {
-    //     return res.json({
-    //         "message":"Register Failed",
-    //         "data":u,
-    //     });
-    // }   
+    } catch (error) {
+        return res.json({
+            "message":"Register Failed",
+            "data":u,
+        });
+    }   
 
 }
 
@@ -55,7 +57,10 @@ const login = async (req,res) => {
     try {
 
         let data = req.login;
-        let token = await bcrypt.hash(data.password,5);
+        const token = jwt.sign({user_id: data.id},
+             process.env.TOKEN_KEY,{expiresIn: "24h"}
+        );
+
         return res.status(200).json({
             message:"Login Success",
             data:{
@@ -77,8 +82,37 @@ const login = async (req,res) => {
 }
 
 
+// 
+// 
+//@route api/v1/getProfile 
+const getProfile = async (req,res) => {
+
+    try {
+        let data = req.user;
+        let role = await Role.findOne({where:{id:data.roleId},attributes:['id','name']});
+        return res.status(200).json({
+            message:"Get Auth Success",
+            data:{
+                "id": data.id,
+                "full_name": data.full_name,
+                "username": data.username,
+                "email": data.email,
+                "roleId": role,
+            }
+        });
+
+    } catch (error) {
+        return res.status(400).json({
+            message:"Something Went Wrong' Login Failed ",
+          });
+    }
+
+}
+
+
 
 module.exports = {
     login,
     register,
+    getProfile
 }
