@@ -55,7 +55,7 @@
                     <% data.forEach(function(item,key) { %>
                     <tr>
                       <th scope="row"><%= key + 1  %></th>
-                      <td><%= item.name  %></td>
+                      <td><%= item.full_name  %></td>
                       <td><%= item.email  %></td>
                       <td><%= new Date(item.createdAt).toLocaleDateString()%></td>
                       <td scope="col">

@@ -1,5 +1,5 @@
-const UserModel = require("../models/User");
-const { getAuthDetail } = require("../utils/Auth");
+const UserModel = require("../../../models/User");
+const { getAuthDetail } = require("../../../utils/Auth");
 
 const isLoggedIn = async (req,res,next) => {
 

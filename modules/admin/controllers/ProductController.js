@@ -1,6 +1,6 @@
 
-const ProductModel = require("../models/Product");
-const CategoryModel = require("../models/Category");
+const ProductModel = require("../../../models/Product");
+const CategoryModel = require("../../../models/Category");
 
 
 

@@ -1,4 +1,4 @@
-const PermissionModel = require("../models/Permission");
+const PermissionModel = require("../../../models/Permission");
 const bcrypt = require("bcrypt")
 
 // 
@@ -6,8 +6,8 @@ const bcrypt = require("bcrypt")
 // 
 const index = async (req,res) => {
     try {
-        const data = await PermissionModel.find();
-        res.render("admin/permissions/index",{
+        const data = await PermissionModel.findAll();
+        res.render("permissions/index",{
             data:data
         });
     } catch (error) {
@@ -20,7 +20,7 @@ const index = async (req,res) => {
 // 
 // 
 const create = async (req,res) => {
-    res.render("admin/permissions/create",{});
+    res.render("permissions/create",{});
 }
 
 
@@ -31,10 +31,10 @@ const store = async (req,res) => {
 
     try {
 
-        const isAlreadyAdded = await PermissionModel.findOne({name:req.body.name});
+        const isAlreadyAdded = await PermissionModel.findOne({where:{name:req.body.name}});
         if(isAlreadyAdded){
             req.flash('error','Permission Allready Added Please Unique Name');
-           return res.render("admin/permissions/create",{old:req.body});
+           return res.render("permissions/create",{old:req.body});
         }
 
 
@@ -43,7 +43,8 @@ const store = async (req,res) => {
             name:req.body.name,
             type:req.body.type,
         });
-        res.redirect('/admin/permissions/index');
+        req.flash('success','Permission Added');
+       return res.redirect('/admin/permissions/index');
     } catch (error) {
         res.json(error);
     }
@@ -101,7 +102,7 @@ const del = async (req,res) => {
 
     const id = req.params.id;
     try {
-        const cc = await PermissionModel.findOneAndRemove({_id:id});
+        const cc = await PermissionModel.destroy({where:{id:id}});
         res.redirect('/admin/permissions/index');
     } catch (error) {
         res.json({message:"Not Found"});

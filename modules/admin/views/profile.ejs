@@ -41,7 +41,7 @@
             <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
 
               <img src="/static/uploads/<%=locals.user.image%>" alt="Profile" class="rounded-circle">
-              <h2><%= locals.user.name%></h2>
+              <h2><%= locals.user.full_name%></h2>
               <h3><%= locals.user.email%></h3>
               <div class="social-links mt-2">
                 <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
@@ -68,15 +68,6 @@
                 <li class="nav-item">
                   <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit">Edit Profile</button>
                 </li>
-               <!-- 
-                <li class="nav-item">
-                  <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-settings">Settings</button>
-                </li>
-
-                <li class="nav-item">
-                  <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-change-password">Change Password</button>
-                </li> -->
-
               </ul>
               <div class="tab-content pt-2">
 
@@ -88,7 +79,7 @@
 
                   <div class="row">
                     <div class="col-lg-3 col-md-4 label ">Full Name</div>
-                    <div class="col-lg-9 col-md-8"><%= locals.user.name%></div>
+                    <div class="col-lg-9 col-md-8"><%= locals.user.full_name%></div>
                   </div>
 
                   <div class="row">
@@ -118,7 +109,7 @@
 
                   <div class="row">
                     <div class="col-lg-3 col-md-4 label">Address</div>
-                    <div class="col-lg-9 col-md-8"><%=locals.user.street_address%></div>
+                    <div class="col-lg-9 col-md-8"><%=locals.user.address%></div>
                   </div>
 
                   <div class="row">
@@ -176,7 +167,7 @@
                     <div class="row mb-3">
                       <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Full Name</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="name" type="text" class="form-control" id="fullName" value="<%=locals.user.name%>">
+                        <input name="full_name" type="text" class="form-control" id="fullName" value="<%=locals.user.full_name%>">
                       </div>
                     </div>
 
@@ -225,7 +216,7 @@
                     <div class="row mb-3">
                       <label for="Address" class="col-md-4 col-lg-3 col-form-label">Address</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="street_address" type="text" class="form-control"value="<%=locals.user.street_address%>">
+                        <input name="address" type="text" class="form-control"value="<%=locals.user.address%>">
                       </div>
                     </div>
 

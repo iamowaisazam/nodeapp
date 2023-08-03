@@ -21,12 +21,12 @@
           
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
             <img src="/static/uploads/<%=locals.auth.image%>" alt="Profile" class="rounded-circle">
-            <span class="d-none d-md-block dropdown-toggle ps-2"><%=locals.auth ? locals.auth.name : ''%></span>
+            <span class="d-none d-md-block dropdown-toggle ps-2"><%=locals.auth ? locals.auth.full_name : ''%></span>
           </a><!-- End Profile Iamge Icon -->
 
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
             <li class="dropdown-header">
-              <h6><%=locals.auth ? locals.auth.name : ''%></h6>
+              <h6><%=locals.auth ? locals.auth.full_name : ''%></h6>
               <span><%=locals.auth ? locals.auth.role : ''%></span>
             </li>
             <li>
@@ -34,7 +34,7 @@
             </li>
 
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="/admin/profile/<%=locals.auth._id%>">
+              <a class="dropdown-item d-flex align-items-center" href="/admin/profile/<%=locals.auth.id%>">
                 <i class="bi bi-person"></i>
                 <span>My Profile</span>
               </a>

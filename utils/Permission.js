@@ -1,6 +1,19 @@
+const db  = require("../config/mysql");
+const { QueryTypes } = require('sequelize');
 const PermissionModel = require("../models/Permission");
 const Role = require("../models/Role");
 const RolePermissionModel = require("../models/RolePermission");
+
+
+const getPermissionsGroup = async () => {
+    return db.query("SELECT type,GROUP_CONCAT(permissions.name) as name,GROUP_CONCAT(permissions.id) as id,GROUP_CONCAT(permissions.title) as title from permissions GROUP BY type",{ type: QueryTypes.SELECT });
+}
+
+const selectedPermission = async (role_id) => {
+    let selectedPermission = await db.query(`select role_permissions.permissionId as id from role_permissions WHERE roleId = ${role_id};`,{ type: QueryTypes.SELECT });
+    return selectedPermission.map(obj => obj.id.toString() );
+}
+
 
 
 const updatePermission= async (role_id,data) => {
@@ -23,50 +36,21 @@ const updatePermission= async (role_id,data) => {
 
 const getPermissions = async (role_id) => {
 
-    let response = [];
 
-    const permissionsTypes = await PermissionModel.distinct('type');
-    const permissions = await PermissionModel.find();
 
-    let selectedPermission = await RolePermissionModel.find({role_id:role_id}).distinct('permission_id');
-    selectedPermission = selectedPermission.map(obj => obj.toString());
     
-
-    permissionsTypes.forEach(type => {
-      
-        let tt = [];
-        permissions.forEach(per => {
-            if(per.type == type){
-
-                // console.log(selectedPermission.includes(per.id));
-
-                tt.push({
-                    _id:per.id,
-                    name:per.name,
-                    title:per.title,
-                    is_selected:selectedPermission.includes(per.id)
-                });
-            } 
-        });
-        response.push({
-            "type":type,
-            "permissions":tt
-        });
-    });
-
-
-    // console.log(response);
-
-    return response;
+    return {
+        permissions: await getPermissionsGroup(),
+        selectedPermission : await selectedPermission(role_id)
+    }
 
 }
 
 
 const userPermission = async (role_id) => {
 
-
-    let selectedPermission = await RolePermissionModel.find({role_id:role_id}).distinct('permission_id');
-    const permissions = await PermissionModel.find({ _id : { $in : selectedPermission } } ).distinct('name');
+    let selectedPermission = await RolePermissionModel.findAll({where:{roleId:role_id}});
+    const permissions = await PermissionModel.findAll({where:{id:selectedPermission}});
     return permissions;
 
 }

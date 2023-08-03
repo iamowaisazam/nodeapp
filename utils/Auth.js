@@ -6,13 +6,13 @@ const { userPermission } = require("../utils/Permission");
 const getAuthDetail = async (token) => {
     
    
-    let user = await UserModel.findOne({_id:token});
+    let user = await UserModel.findOne({id:token});
     if(user == undefined){
         return false;
     }
     
-    let userPerm = await userPermission(user.role_id)
-    let role = await RoleModel.findOne({_id:user.role_id});
+    let userPerm = await userPermission(user.roleId)
+    let role = await RoleModel.findOne({id:user.roleId});
   
     user.role = role.title;
     user.permissions = userPerm;

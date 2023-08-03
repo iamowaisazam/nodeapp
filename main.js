@@ -7,16 +7,20 @@ const dotenv = require("dotenv").config();
 const sequelize = require('./config/mysql');
 
 
+
+
+
+
 //  ______________________________________DB
-const User = require('./models/User');
-const Role = require('./models/Role');
-const Permission = require('./models/Permission');
-const UserRole = require('./models/UserRole');
-const RolePermission = require('./models/RolePermission');
+// const User = require('./models/User');
+// const Role = require('./models/Role');
+// const Permission = require('./models/Permission').sync({alter:true});
+// const UserRole = require('./models/UserRole');
+// const RolePermission = require('./models/RolePermission');
 
 (async () => {
 
-   await sequelize.sync().then(() => {
+   // await sequelize.sync({alter:true}).then(() => {
 
       // Role.create({
       //    name:"Admin",
@@ -28,7 +32,7 @@ const RolePermission = require('./models/RolePermission');
       //    description:".."
       // });
       
-   });
+   // });
 
  })();
 //  ______________________________________DB
@@ -39,6 +43,7 @@ const RolePermission = require('./models/RolePermission');
 
 //Initialization..
 
+// console.log(path.join(__dirname, "modules","admin","views"));
 
 const app = express()
 
@@ -47,7 +52,7 @@ const app = express()
 app.use('/static',express.static(path.join(__dirname, "./public")));
 
 // set the view engine to ejs
-app.set("views", path.join(__dirname, "views"));
+app.set("views", path.join(__dirname,"modules","admin","views"));
 app.set('view engine', 'ejs');
 
 
@@ -75,6 +80,7 @@ app.locals.settings = {
 
 
 //Router Service Providers
+app.use('/admin',require("./modules/admin/route"));
 app.use('/api/v1',require("./modules/api/route"));
 
 

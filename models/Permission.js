@@ -8,9 +8,18 @@ const Permission = sequelize.define('Permission', {
         primaryKey:true,
         allowNull:false,
     },
+    title: {
+        type: DataTypes.STRING,
+        unique:false,
+    },
     name: {
         type: DataTypes.STRING,
         unique:true,
+    },
+    type: {
+        type: DataTypes.STRING,
+        unique:false,
+        allowNull:true,
     },
     description: {
         type: DataTypes.STRING,

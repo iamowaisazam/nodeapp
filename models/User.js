@@ -12,6 +12,10 @@ const User = sequelize.define('User', {
     full_name: {
         type: DataTypes.STRING,
     },
+    image:{
+        type: DataTypes.STRING,
+        allowNull:true,
+    },
     username: {
         type: DataTypes.STRING,
         unique: true,
@@ -34,8 +38,55 @@ const User = sequelize.define('User', {
         references: {
             model: Role,
             key: 'id'
-        }
-        
+        }  
+    },
+    phone:{
+        type: DataTypes.STRING,
+        allowNull:true,
+    },
+    about:{
+        type: DataTypes.STRING,
+        allowNull:true,
+    },
+    company:{
+        type: DataTypes.STRING,
+        allowNull:true,
+    },
+    job:{
+        type: DataTypes.STRING,
+        allowNull:true,
+    },
+    country:{
+        type: DataTypes.STRING,
+        allowNull:true,
+    },
+    state:{
+        type: DataTypes.STRING,
+        allowNull:true,
+    },
+    city:{
+        type: DataTypes.STRING,
+        allowNull:true,
+    },
+    address:{
+        type: DataTypes.STRING,
+        allowNull:true,
+    },
+    facebook:{
+        type: DataTypes.STRING,
+        allowNull:true,
+    },
+    twitter:{
+        type: DataTypes.STRING,
+        allowNull:true,
+    },
+    instagram:{
+        type: DataTypes.STRING,
+        allowNull:true,
+    },
+    linkedin:{
+        type: DataTypes.STRING,
+        allowNull:true,
     },
     createdBy: {
         type: DataTypes.INTEGER,

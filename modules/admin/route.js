@@ -3,31 +3,31 @@ const app =  express.Router()
 const multer  = require('multer')
 
 const upload = multer({
+    
     storage:multer.diskStorage({
-    destination: function (req, file, cb) {
-      cb(null, 'public/uploads')
-    },
-    filename: function (req, file, cb) {
-        cb(null,Date.now()+file.originalname)
-    }
-  })
-  
-}
+      destination: function (req, file, cb) {
+        cb(null, 'public/uploads')
+      },
+      filename: function (req, file, cb) {
+          cb(null,Date.now()+file.originalname)
+      }
+    })
 
+  }
 );
  
 
 //middleware..
-const {isLoggedIn,isLoggedOut} = require('../middlewares/AuthencicationMiddleware')
+const {isLoggedIn,isLoggedOut} = require('./middlewares/AuthencicationMiddleware')
 
 
-const UserController = require('../controllers/UserController')
-const RoleController = require('../controllers/RoleController')
-const PermissionController = require('../controllers/PermissionController')
-const ProductController = require('../controllers/ProductController')
-const DashboardController = require('../controllers/DashboardController')
-const AdminAuthController = require('../controllers/AdminAuthController')
-const CategoryController = require('../controllers/CategoryController')
+const UserController = require('./controllers/UserController')
+const RoleController = require('./controllers/RoleController')
+const PermissionController = require('./controllers/PermissionController')
+// const ProductController = require('./controllers/ProductController')
+const DashboardController = require('./controllers/DashboardController')
+const AdminAuthController = require('./controllers/AdminAuthController')
+// const CategoryController = require('./controllers/CategoryController')
 
 
 
@@ -36,7 +36,7 @@ app.get('/',isLoggedIn,DashboardController.dashboard);
 app.get('/dashboard',isLoggedIn,DashboardController.dashboard);
 
 //Authentication and Registeration
-app.get('/logout',isLoggedIn,AdminAuthController.logout);
+
 app.get('/login',isLoggedOut,AdminAuthController.login);
 app.post('/login/submit',isLoggedOut,AdminAuthController.login_submit);
 app.get('/register',isLoggedOut,AdminAuthController.register);
@@ -45,10 +45,10 @@ app.get('/forget-password',isLoggedOut,AdminAuthController.forgetPassword);
 app.post('/forget-password/submit',isLoggedOut,AdminAuthController.forgetPasswordSubmit);
 app.get('/new-password/:token',isLoggedOut,AdminAuthController.newPassword);
 app.post('/new-password/submit/:token',isLoggedOut,AdminAuthController.newPasswordSubmit);
+
+app.get('/logout',AdminAuthController.logout);
 app.get('/profile/:id',isLoggedIn,DashboardController.profile);
-app.post('/update_profile/:id',[upload.single("img"),isLoggedIn],DashboardController.update_profile);
-
-
+app.post('/update_profile/:id',[isLoggedIn,upload.single("img")],DashboardController.update_profile);
 
 
 //users
@@ -73,19 +73,19 @@ app.get('/permissions/edit/:id',isLoggedIn,PermissionController.edit);
 app.post('/permissions/update/:id',isLoggedIn,PermissionController.update);
 app.get('/permissions/delete/:id',isLoggedIn,PermissionController.del);
 
-app.get('/categories/index',isLoggedIn,CategoryController.index);
-app.get('/categories/create',isLoggedIn,CategoryController.create);
-app.post('/categories/store',[upload.single("image"),isLoggedIn],CategoryController.store);
-app.get('/categories/edit/:id',isLoggedIn,CategoryController.edit);
-app.post('/categories/update/:id',[upload.single("image"),isLoggedIn],CategoryController.update);
-app.get('/categories/delete/:id',isLoggedIn,CategoryController.del);
+// app.get('/categories/index',isLoggedIn,CategoryController.index);
+// app.get('/categories/create',isLoggedIn,CategoryController.create);
+// app.post('/categories/store',[upload.single("image"),isLoggedIn],CategoryController.store);
+// app.get('/categories/edit/:id',isLoggedIn,CategoryController.edit);
+// app.post('/categories/update/:id',[upload.single("image"),isLoggedIn],CategoryController.update);
+// app.get('/categories/delete/:id',isLoggedIn,CategoryController.del);
 
-app.get('/products/index',isLoggedIn,ProductController.index);
-app.get('/products/create',isLoggedIn,ProductController.create);
-app.post('/products/store',[upload.single("image"),isLoggedIn],ProductController.store);
-app.get('/products/edit/:id',isLoggedIn,ProductController.edit);
-app.post('/products/update/:id',[upload.single("image"),isLoggedIn],ProductController.update);
-app.get('/products/delete/:id',isLoggedIn,ProductController.del);
+// app.get('/products/index',isLoggedIn,ProductController.index);
+// app.get('/products/create',isLoggedIn,ProductController.create);
+// app.post('/products/store',[upload.single("image"),isLoggedIn],ProductController.store);
+// app.get('/products/edit/:id',isLoggedIn,ProductController.edit);
+// app.post('/products/update/:id',[upload.single("image"),isLoggedIn],ProductController.update);
+// app.get('/products/delete/:id',isLoggedIn,ProductController.del);
 
 
 

@@ -1,36 +1,34 @@
-const RoleModel = require("../models/Role");
-const User = require("../models/User");
+const RoleModel = require("../../../models/Role");
+const User = require("../../../models/User");
 const bcrypt = require("bcrypt")
 
 // 
 // 
-// 
+// @route admin/users/index
 const index = async (req,res) => {
 
     try {
 
-        const user = await User.find();
-        res.render("admin/users/index",{
+        const user = await User.findAll();
+        res.render("users/index",{
             data:user
         });
 
     } catch (error) {
-
-        res.send(error);
+        req.flash('error','Something Went Wrong');
+        res.redirect('/admin/');
     }
 
-    
 }
 
 
 // 
 // 
-// 
+// @route admin/users/create
 const create = async (req,res) => {
 
-     let roles = await RoleModel.find();
-  
-    res.render("admin/users/create",{
+     let roles = await RoleModel.findAll();
+    res.render("users/create",{
       roles:roles
     });
 
@@ -39,26 +37,26 @@ const create = async (req,res) => {
 
 // 
 // 
-// 
+// @route admin/users/store
 const store = async (req,res) => {
 
     try {
         
         let password = await bcrypt.hash(req.body.password,10);
-        
-
         const u = await User.create({
-            name:req.body.name,
+            full_name:req.body.full_name,
             email:req.body.email,
             password:password,
-            role_id:req.body.role_id,
+            roleId:req.body.roleId,
             image:null,
         });
 
+        req.flash('success','Record Added');
         res.redirect('/admin/users/index');
 
     } catch (error) {
-        res.json(error);
+        req.flash('error','Something Went Wrong');
+        res.redirect('/admin/users/index');
     }
 
 }
@@ -66,36 +64,42 @@ const store = async (req,res) => {
 
 // 
 // 
-// 
+// @route admin/users/edit/:id
 const edit = async (req,res) => {
-
-    const id = req.params.id;
-    const data = await User.findOne({_id:id});
-    let roles = await RoleModel.find();
-    if(data){
-
-        res.render("admin/users/edit",{
-            data:data,
-            roles
-        });
-        
-    }else{
     
-        res.json({message:"Not Found"});
+    try {
+
+        const id = req.params.id;
+        const data = await User.findOne({id:id});
+        let roles = await RoleModel.findAll();
+        if(data){
+            res.render("users/edit",{
+                data:data,
+                roles
+            });
+        }else{
+            req.flash('error','User Not Found');
+            res.redirect('/admin/users/index');
+        }
+        
+    } catch (error) {
+        req.flash('error','Something Went Wrong');
+        res.redirect('/admin/users/index');
     }
-   
+
+
 }
 
 // 
 // 
-// 
+// @route admin/users/update/:id
 const update = async (req,res) => {
 
     const id = req.params.id;
     let data = {
-        name:req.body.name,
+        full_name:req.body.full_name,
         email:req.body.email,
-        role_id:req.body.role_id,
+        roleId:Number(req.body.roleId),
     };
     
     if(req.body.password != ""){
@@ -103,26 +107,37 @@ const update = async (req,res) => {
     }
     
     try {
-        const cc = await User.findOneAndUpdate({_id:id},data);   
+        const cc = await User.update(
+            data,
+            {where:{id:id}},
+        );   
+        req.flash('success','Record Updated');
         res.redirect('/admin/users/edit/'+id);
-
     } catch (error) {
-        res.json({message:"Not Found"});
+        req.flash('error','Something Went Wrong');
+        res.redirect('/admin/users/edit/'+id);
     }
     
 }
 
 // 
 // 
-// 
+// @route admin/users/delete/:id
 const del = async (req,res) => {
 
     const id = req.params.id;
     try {
-        const cc = await User.findOneAndRemove({_id:id});
+        const cc = await User.destroy({
+            where: {
+              id:id
+            },
+          });
+
+        req.flash('success','Record Deleted');
         res.redirect('/admin/users/index');
     } catch (error) {
-        res.json({message:"Not Found"});
+        req.flash('error','Something Went Wrong');
+        res.redirect('/admin/users/index');
     }
 }
 

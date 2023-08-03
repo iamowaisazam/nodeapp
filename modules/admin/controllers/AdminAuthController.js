@@ -1,6 +1,6 @@
-const User = require("../../models/User");
+const User = require("../../../models/User");
 const bcrypt = require("bcrypt");
-const { sentVerification,sentForgetPasswordEmail } = require("../../utils/email");
+const { sentVerification,sentForgetPasswordEmail } = require("../../../utils/email");
 
 
 // 
@@ -8,9 +8,9 @@ const { sentVerification,sentForgetPasswordEmail } = require("../../utils/email"
 // 
 const login = async (req,res) => {
     
-   
+ 
 //    console.log(req.cookies.token);
-    return res.render("admin/login");
+    return res.render("login");
 }
 
 
@@ -19,13 +19,14 @@ const login = async (req,res) => {
 // 
 const login_submit = async (req,res) => {
 
+
       let email = req.body.email;
       let password = req.body.password;
 
       const response = await User.findOne({email:email});
       if(response == null){
           req.flash('error','Incorect Email Or Password');
-          return res.render("admin/login",{
+          return res.render("login",{
             old:req.body,
           });
       }
@@ -34,14 +35,14 @@ const login_submit = async (req,res) => {
       let compare = await bcrypt.compare(password,dbpass);
       if(compare == false){
         req.flash('error','Incorect Email Or Password');
-        return res.render("admin/login",{
+        return res.render("login",{
             old:req.body,
           });
       }
 
      await res.cookie("token",response._id);
       req.flash('success','Login Success');
-      res.redirect('/admin');
+      res.redirect('/admin/dashboard');
 }
 
 // 
@@ -49,7 +50,7 @@ const login_submit = async (req,res) => {
 // 
 const register = async (req,res) => {
 
-    return res.render("admin/register",{
+    return res.render("register",{
 
     });
 
@@ -72,7 +73,7 @@ const register_submit = async (req,res) => {
             role_id:1,
         });
         req.flash('success','Register Success Please Login');
-        res.redirect('/admin/login');
+        res.redirect('login');
         
     } catch (error) {
         res.end(error);
@@ -87,7 +88,7 @@ const register_submit = async (req,res) => {
 const forgetPassword = async (req,res) => {
 
    
-    return res.render("admin/forgetPassword");
+    return res.render("forgetPassword");
 }
 
 
@@ -101,7 +102,7 @@ const forgetPasswordSubmit = async (req,res) => {
     if(response == null){
 
         req.flash('error','Email Not Found');
-        return res.render("admin/forgetPassword",{
+        return res.render("forgetPassword",{
           old:req.body,
         });
 
@@ -113,7 +114,7 @@ const forgetPasswordSubmit = async (req,res) => {
     sentForgetPasswordEmail(email,token);
     
     req.flash('error','Email Sent Please Check');
-    return  res.redirect('/admin/forget-password');
+    return  res.redirect('forget-password');
    
 }
 
@@ -130,7 +131,7 @@ const newPassword = async (req,res) => {
         return  res.redirect('/admin/forget-password');
     }
 
-    res.render('admin/newPassword',{data:response});  
+    res.render('newPassword',{data:response});  
 }
 
 
@@ -144,7 +145,7 @@ const newPasswordSubmit = async (req,res) => {
     const response = await User.findOne({forget_password_token:token});
     if(response == null){
         req.flash('error','Password Reset Link Expired');
-        return  res.redirect('/admin/forget-password');
+        return  res.redirect('forget-password');
     }
 
     let password1 = req.body.password1;
@@ -152,7 +153,7 @@ const newPasswordSubmit = async (req,res) => {
 
     if(password1 != password2){
         req.flash('error','Password Must Be Same');
-        return res.render("admin/newPassword",{
+        return res.render("newPassword",{
             old:req.body,
             data:response,
         });
@@ -164,7 +165,7 @@ const newPasswordSubmit = async (req,res) => {
     data.forget_password_token = null;
     const cc = await User.findOneAndUpdate({_id:response._id},data);   
     req.flash('success','Password Changed');
-    return  res.redirect('/admin/login');
+    return  res.redirect('login');
 
 }
 
@@ -178,7 +179,7 @@ const logout = async (req,res) => {
   
     res.clearCookie("token");
     req.flash('success','User Logout Success');
-    res.redirect('/admin/login');
+    res.redirect('login');
 
 }
 
