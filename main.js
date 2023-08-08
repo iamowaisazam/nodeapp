@@ -30,6 +30,7 @@ app.use(express.urlencoded({ extended: false }));
 
 //Auth Modules
 app.use('/api/v1',require("./modules/api/Auth/AuthRoute"));
+app.use('/api/v1',require("./modules/api/User/UserRoute"));
 
 
 
