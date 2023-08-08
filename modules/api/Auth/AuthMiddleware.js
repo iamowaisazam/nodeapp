@@ -1,6 +1,10 @@
 const jwt = require('jsonwebtoken');
 const User = require('../../../models/User');
 
+
+// 
+// 
+//@route api/v1/register
 const isLoggedIn = async (req,res,next) => {
 
         if(!req.headers.authorization){
@@ -49,4 +53,6 @@ const isLoggedIn = async (req,res,next) => {
 
 
 
-module.exports = isLoggedIn
+module.exports = {
+    isLoggedIn
+}

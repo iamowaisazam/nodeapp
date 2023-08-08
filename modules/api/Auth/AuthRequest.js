@@ -32,9 +32,6 @@ const bcrypt = require('bcrypt');
         errors:{email:"Email Allready Associat With Other Account"}
       });
     }
-
-  
-
     next();
 };
 

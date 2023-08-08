@@ -1,27 +1,25 @@
 const express = require('express')
 const app =  express.Router()
-const multer  = require('multer')
 
 
 //Validations
 const { 
     LoginRequest,
     RegisterRequest
-} = require('./request/AuthRequest')
+} = require('./AuthRequest')
 
 
 //Controllers
-const AuthController = require('./controllers/AuthController')
+const AuthController = require('./AuthController')
 
 //Middlewares
-const isLoggedIn = require('./middlewares/isLoggedInMiddleware');
+const {isLoggedIn} = require('./AuthMiddleware');
 
 
 //users
 app.post('/login',LoginRequest,AuthController.login);
 app.post('/register',RegisterRequest,AuthController.register);
 app.post('/getProfile',isLoggedIn,AuthController.getProfile);
-
 
 
 
