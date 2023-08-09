@@ -34,7 +34,7 @@ const isLoggedIn = async (req,res,next) => {
             const response = await User.findOne({where:{id:id}});
             if(response == null){
                 return res.status(400).json({
-                    message:"Invlaid Not Found",
+                    message:"Token Invlaid Not Found",
                 });
             }
 
